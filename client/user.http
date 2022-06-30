@@ -1,0 +1,32 @@
+### 회원 가입
+POST http://localhost:8080/api/users/sign-up
+Content-Type: application/json
+
+{
+  "email": "test@naver.com",
+  "password": "anyPassword1"
+}
+
+### 이메일 인증
+PUT http://localhost:8080/api/users/email-certification
+Content-Type: application/json
+
+{
+  "key": "w9iot"
+}
+
+### 로그인
+POST http://localhost:8080/api/users/login
+Content-Type: application/json
+
+{
+  "email": "test@naver.com",
+  "password": "anyPassword1"
+}
+> {%
+  client.global.set("Authorization", response.headers.valueOf("Authorization"))
+  %}
+
+### 로그아웃
+GET http://localhost:8080/api/users/logout
+Authorization: {{Authorization}}
