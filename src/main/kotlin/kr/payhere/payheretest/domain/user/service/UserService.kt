@@ -10,11 +10,13 @@ import kr.payhere.payheretest.exception.ConflictException
 import kr.payhere.payheretest.exception.NotFoundException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDateTime
+import javax.persistence.EntityManager
 
 @Service
 class UserService (
     private val userRepository: UserRepository,
-
+    private val entityManager: EntityManager,
 ) {
     fun login(email: String, password: String): UserDTO {
         val user = userRepository.findByEmail(email)
@@ -53,5 +55,15 @@ class UserService (
         }
 
         user.mailAuthentication = true
+    }
+
+    @Transactional
+    fun deleteNotMailAuthentication(dateTime: LocalDateTime) {
+        val users = userRepository.findByMailAuthenticationFalseAndCreatedAtBefore(dateTime)
+
+        val ids = users.map { it.id }
+        userRepository.deleteAllByIdInBatch(ids)
+        entityManager.flush()
+        entityManager.clear()
     }
 }
