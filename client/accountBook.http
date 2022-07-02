@@ -1,0 +1,55 @@
+### a. 가계부에 오늘 사용한 돈의 금액과 관련된 메모를 남길 수 있습니다.
+POST http://localhost:8080/api/account-books
+Authorization: {{Authorization}}
+Content-Type: application/json
+
+{
+  "memo": "test",
+  "histories": [
+    {
+      "cash": 0,
+      "card": 0,
+      "categoryId": 1
+    }
+  ]
+}
+
+###  b. 가계부에서 수정을 원하는 내역은 금액과 메모를 수정 할 수 있습니다.
+PUT http://localhost:8080/api/account-books
+Authorization: {{Authorization}}
+Content-Type: application/json
+
+{
+  "memo": "test",
+  "histories": [
+    {
+      "cash": 100,
+      "card": 200,
+      "historyId": 1
+    }
+  ]
+}
+
+### c. 가계부에서 삭제를 원하는 내역은 삭제 할 수 있습니다.
+DELETE http://localhost:8080/api/account-books/1
+Authorization: {{Authorization}}
+
+### d. 삭제한 내역은 언제든지 다시 복구 할 수 있어야 한다.
+PUT http://localhost:8080/api/account-books/restore/1
+Authorization: {{Authorization}}
+
+### e. 가계부에서 이제까지 기록한 가계부 리스트를 볼 수 있습니다.
+GET http://localhost:8080/api/account-books
+Authorization: {{Authorization}}
+
+### f. 가계부에서 상세한 세부 내역을 볼 수 있습니다.
+GET http://localhost:8080/api/account-books/1
+Authorization: {{Authorization}}
+
+### 삭제한 내역
+GET http://localhost:8080/api/account-books/deleted
+Authorization: {{Authorization}}
+
+### 카테고리 조회
+GET http://localhost:8080/api/account-books/categories
+Authorization: {{Authorization}}
