@@ -66,3 +66,8 @@ tasks.withType<Test> {
 kotlin.sourceSets.main {
     setBuildDir("$buildDir")
 }
+
+task("appVersion") {
+    val version = "${rootProject.name}-${version}.jar"
+    println(version)
+}
