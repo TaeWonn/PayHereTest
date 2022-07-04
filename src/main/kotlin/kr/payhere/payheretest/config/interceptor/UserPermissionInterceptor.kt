@@ -19,7 +19,12 @@ class UserPermissionInterceptor: HandlerInterceptor {
 
         val handlerMethod: HandlerMethod = handler
         val bridgeMethod = BridgeMethodResolver.findBridgedMethod(handlerMethod.method) as AnnotatedElement
+
         var restricted: Restricted? = AnnotationUtils.findAnnotation(bridgeMethod, Restricted::class.java)
+
+        if (restricted == null) {
+            restricted = AnnotationUtils.findAnnotation(handlerMethod.method.declaringClass, Restricted::class.java)
+        }
 
         if (restricted == null) return true
 
